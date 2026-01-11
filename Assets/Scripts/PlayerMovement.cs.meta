@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f0030288a996a2d4d8ac6515e1993d87
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - groundCheck: {instanceID: 0}
+  - moveAction: {instanceID: 0}
+  - jumpAction: {instanceID: 0}
+  - splashPrefab: {fileID: 1249143819526490671, guid: a9c0ebd4558481646a1474b902682ff3, type: 3}
+  - lighterPrefab: {fileID: 7384059103224870510, guid: c7c366619a104e14d87ee03b994e038d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
