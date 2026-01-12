@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Setup")]
     [SerializeField] private Vector3 initPoint;
     [SerializeField] private Color effectsColor;
+    [SerializeField] private GameObject triangleArmPref;
+    
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
@@ -19,19 +22,32 @@ public class PlayerMovement : MonoBehaviour
     [Header("Inputs")]
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference jumpAction;
+    [SerializeField] private InputActionReference leftClickAction;
+    [SerializeField] private InputActionReference rightClickAction;
+    [SerializeField] private InputActionReference mousePositionAction;
 
     [Header("Effects Prefabs")]
     [SerializeField] private GameObject splashPrefab;
     [SerializeField] private GameObject lighterPrefab;
     [SerializeField] private float lighterLerpSpeed = 10f;
 
+    [Header("Arm Settings")]
+    [SerializeField] private Vector3 leftArmOffset = new Vector3(-2f, 0.5f, 0f);
+    [SerializeField] private Vector3 rightArmOffset = new Vector3(2f, 0.5f, 0f);
+    [SerializeField] private float armSmoothTime = 10f;
+    [SerializeField] private float maxArmReach = 4f;
+
     private GameObject splashObject;
     private GameObject lighterObject;
-    private static WaitForSeconds waitForSeconds = new(2.5f);
-
+    private TriangularArmController leftArmController;
+    private TriangularArmController rightArmController;
+    
     private Rigidbody rb;
+    private Camera mainCamera;
     private bool isGrounded;
     private Vector2 inputDirection;
+    private Vector3 lastMoveDirection = Vector3.forward;
+    private static WaitForSeconds waitForSeconds = new(2.5f);
 
     public bool canMove;
     public bool isControlled = false;
@@ -40,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotation;
+        mainCamera = Camera.main;
     }
 
     private void Start()
@@ -57,6 +74,15 @@ public class PlayerMovement : MonoBehaviour
             lighterObject.GetComponent<Light>().color = effectsColor;
         }
 
+        if (triangleArmPref != null)
+        {
+            GameObject leftArmObj = Instantiate(triangleArmPref, transform.position, Quaternion.identity, null);
+            leftArmController = leftArmObj.GetComponent<TriangularArmController>();
+            
+            GameObject rightArmObj = Instantiate(triangleArmPref, transform.position, Quaternion.identity, null);
+            rightArmController = rightArmObj.GetComponent<TriangularArmController>();
+        }
+
         StartCoroutine(UnlockingMovement());
     }
 
@@ -64,21 +90,39 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isControlled)
         {
-            moveAction.action.Enable();
-            jumpAction.action.Enable();
+            EnableInputs();
         }
     }
 
     private void OnDisable()
     {
+        DisableInputs();
+    }
+
+    private void EnableInputs()
+    {
+        moveAction.action.Enable();
+        jumpAction.action.Enable();
+        leftClickAction.action.Enable();
+        rightClickAction.action.Enable();
+        mousePositionAction.action.Enable();
+    }
+
+    private void DisableInputs()
+    {
         moveAction.action.Disable();
         jumpAction.action.Disable();
+        leftClickAction.action.Disable();
+        rightClickAction.action.Disable();
+        mousePositionAction.action.Disable();
     }
 
     private void OnDestroy()
     {
         if (splashObject != null) Destroy(splashObject);
         if (lighterObject != null) Destroy(lighterObject);
+        if (leftArmController != null) Destroy(leftArmController.gameObject);
+        if (rightArmController != null) Destroy(rightArmController.gameObject);
     }
 
     private void Update()
@@ -95,16 +139,19 @@ public class PlayerMovement : MonoBehaviour
             if (splashObject != null)
             {
                 splashObject.SetActive(true);
-                splashObject.transform.position = transform.position + new Vector3(1.5f, -0.75f, 1.5f);
-                splashObject.transform.rotation = Quaternion.identity;
+                splashObject.transform.SetPositionAndRotation(transform.position + new Vector3(1.5f, -0.75f, 1.5f), Quaternion.identity);
             }
         }
 
         isGrounded = isTouchingGround;
         inputDirection = moveAction.action.ReadValue<Vector2>();
 
-        if (inputDirection.sqrMagnitude > 0.01f || rb.linearVelocity.y > 0)
+        bool isMoving = inputDirection.sqrMagnitude > 0.01f || Math.Abs(rb.linearVelocity.y) > 0.1f || new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude > 0.1f;
+
+        if (inputDirection.sqrMagnitude > 0.01f)
         {
+            lastMoveDirection = new Vector3(inputDirection.x, 0, inputDirection.y).normalized;
+            
             float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(isGrounded ? 0 : 270, targetAngle, 0);
 
@@ -123,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
             lighterObject.transform.position = Vector3.Lerp(lighterObject.transform.position, idlePos, Time.deltaTime * lighterLerpSpeed);
         }
 
+        UpdateArms(isMoving);
+
         if (jumpAction.action.WasPressedThisFrame() && isGrounded)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
@@ -138,6 +187,85 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void UpdateArms(bool isMoving)
+    {
+        if (leftArmController == null || rightArmController == null) return;
+
+        bool isLeftPressed = leftClickAction.action.IsPressed();
+        bool isRightPressed = rightClickAction.action.IsPressed();
+        Vector3 mouseWorldPos = GetMouseWorldPosition();
+        Quaternion faceDirection = Quaternion.LookRotation(lastMoveDirection);
+
+        if (isLeftPressed)
+        {
+            leftArmController.SetVisibility(true);
+            MoveArmToTarget(leftArmController.transform, mouseWorldPos);
+        }
+        else
+        {
+            if (isMoving)
+            {
+                leftArmController.SetVisibility(false);
+            }
+            else
+            {
+                leftArmController.SetVisibility(true);
+                Vector3 leftTargetPos = transform.position + faceDirection * leftArmOffset;
+                LerpArmToIdle(leftArmController.transform, leftTargetPos, faceDirection);
+            }
+        }
+
+        if (isRightPressed)
+        {
+            rightArmController.SetVisibility(true);
+            MoveArmToTarget(rightArmController.transform, mouseWorldPos);
+        }
+        else
+        {
+            if (isMoving)
+            {
+                rightArmController.SetVisibility(false);
+            }
+            else
+            {
+                rightArmController.SetVisibility(true);
+                Vector3 rightTargetPos = transform.position + faceDirection * rightArmOffset;
+                LerpArmToIdle(rightArmController.transform, rightTargetPos, faceDirection);
+            }
+        }
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector2 mouseScreenPos = mousePositionAction.action.ReadValue<Vector2>();
+        Ray ray = mainCamera.ScreenPointToRay(mouseScreenPos);
+        Plane groundPlane = new Plane(Vector3.up, transform.position);
+        
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            return ray.GetPoint(enter);
+        }
+        return transform.position;
+    }
+
+    private void MoveArmToTarget(Transform armTransform, Vector3 targetWorldPos)
+    {
+        Vector3 directionToTarget = targetWorldPos - transform.position;
+        float dist = Mathf.Min(directionToTarget.magnitude, maxArmReach);
+        Vector3 clampedTarget = transform.position + directionToTarget.normalized * dist;
+        
+        clampedTarget.y = transform.position.y + 0.5f;
+
+        armTransform.position = Vector3.Lerp(armTransform.position, clampedTarget, Time.deltaTime * armSmoothTime);
+        armTransform.LookAt(targetWorldPos);
+    }
+
+    private void LerpArmToIdle(Transform armTransform, Vector3 targetPos, Quaternion faceDir)
+    {
+        armTransform.position = Vector3.Lerp(armTransform.position, targetPos, Time.deltaTime * armSmoothTime);
+        armTransform.rotation = Quaternion.Slerp(armTransform.rotation, faceDir, Time.deltaTime * armSmoothTime);
+    }
+
     private void FixedUpdate()
     {
         if (canMove && isControlled)
@@ -150,13 +278,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (state)
         {
-            moveAction.action.Enable();
-            jumpAction.action.Enable();
+            EnableInputs();
         }
         else
         {
-            moveAction.action.Disable();
-            jumpAction.action.Disable();
+            DisableInputs();
 
             if (splashObject != null) splashObject.SetActive(false);
 
