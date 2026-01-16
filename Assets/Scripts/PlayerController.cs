@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Setup")]
     [SerializeField] private Vector3 initPoint;
     [SerializeField] private Color effectsColor;
     [SerializeField] private GameObject triangleArmPref;
     [SerializeField] private GameObject emojiHolderPref;
-    
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
@@ -37,19 +37,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector3 rightArmOffset = new(2f, 0.5f, 0f);
     [SerializeField] private float armSmoothTime = 10f;
     [SerializeField] private float maxArmReach = 4f;
+    [SerializeField] private LayerMask obstacleLayer;
 
     private GameObject splashObject;
     private GameObject lighterObject;
     private GameObject emojiObject;
     private TriangularArmController leftArmController;
     private TriangularArmController rightArmController;
-    
+
     private Rigidbody rb;
     private Camera mainCamera;
     private bool isGrounded;
     private Vector2 inputDirection;
     private Vector3 lastMoveDirection = Vector3.forward;
-    private static readonly WaitForSeconds waitForSeconds = new(2.5f);
+    private static readonly WaitForSeconds waitForSeconds = new(2.25f);
 
     public bool canMove;
     public bool isControlled = false;
@@ -81,11 +82,12 @@ public class PlayerMovement : MonoBehaviour
         {
             GameObject leftArmObj = Instantiate(triangleArmPref, transform.position, Quaternion.identity, null);
             leftArmController = leftArmObj.GetComponent<TriangularArmController>();
-            
+
             GameObject rightArmObj = Instantiate(triangleArmPref, transform.position, Quaternion.identity, null);
             rightArmController = rightArmObj.GetComponent<TriangularArmController>();
         }
-        if(emojiHolderPref != null){
+        if (emojiHolderPref != null)
+        {
             emojiObject = Instantiate(emojiHolderPref, transform.position, Quaternion.identity, null);
             emojiObject.SetActive(false);
         }
@@ -134,64 +136,89 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!isControlled) return;
-
         if (transform.position.y < -10)
+        {
             transform.SetPositionAndRotation(initPoint, Quaternion.identity);
-
-        bool isTouchingGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
-
-        if (isGrounded && !splashObject.activeInHierarchy)
+            if (!isControlled)
+                SetLighterPos();
+        }
+        if (!isControlled)
         {
-            if (splashObject != null)
+            if ((rb.linearVelocity.x > 0.1f || rb.linearVelocity.z > 0.1f) && inputDirection.sqrMagnitude < 0.01f)
             {
-                splashObject.SetActive(true);
-                splashObject.transform.SetPositionAndRotation(transform.position + new Vector3(1.5f, -0.75f, 1.5f), Quaternion.identity);
+                SetLighterPos();
+                SetArmsOff();
             }
         }
-
-        isGrounded = isTouchingGround;
-        inputDirection = moveAction.action.ReadValue<Vector2>();
-
-        bool isMoving = inputDirection.sqrMagnitude > 0.01f || Math.Abs(rb.linearVelocity.y) > 0.1f || new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude > 0.1f;
-
-        if (inputDirection.sqrMagnitude > 0.01f)
+        else
         {
-            lastMoveDirection = new Vector3(inputDirection.x, 0, inputDirection.y).normalized;
-            
-            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(isGrounded ? 0 : 270, targetAngle, 0);
+            bool isTouchingGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
 
-            Vector3 moveDir = new Vector3(inputDirection.x, 0, inputDirection.y).normalized;
-            Vector3 targetPosition = transform.position + (moveDir * 1.5f) + new Vector3(0, -0.75f, 0);
-
-            if (lighterObject != null)
+            if (isGrounded && !splashObject.activeInHierarchy)
             {
-                lighterObject.transform.SetPositionAndRotation(Vector3.Lerp(lighterObject.transform.position, targetPosition, Time.deltaTime * lighterLerpSpeed),
-                Quaternion.Slerp(lighterObject.transform.rotation, targetRotation, Time.deltaTime * lighterLerpSpeed));
+                if (splashObject != null)
+                {
+                    splashObject.SetActive(true);
+                    splashObject.transform.SetPositionAndRotation(transform.position + new Vector3(1.5f, -0.75f, 1.5f), Quaternion.identity);
+                }
+            }
+
+            isGrounded = isTouchingGround;
+            inputDirection = moveAction.action.ReadValue<Vector2>();
+
+            bool isMoving = inputDirection.sqrMagnitude > 0.01f || Math.Abs(rb.linearVelocity.y) > 0.1f || new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude > 0.1f;
+
+            if (inputDirection.sqrMagnitude > 0.01f)
+            {
+                lastMoveDirection = new Vector3(inputDirection.x, 0, inputDirection.y).normalized;
+
+                float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg;
+                Quaternion targetRotation = Quaternion.Euler(isGrounded ? 0 : 270, targetAngle, 0);
+
+                Vector3 moveDir = new Vector3(inputDirection.x, 0, inputDirection.y).normalized;
+                Vector3 targetPosition = transform.position + (moveDir * 1.5f) + new Vector3(0, -0.75f, 0);
+
+                if (lighterObject != null)
+                {
+                    lighterObject.transform.SetPositionAndRotation(Vector3.Lerp(lighterObject.transform.position, targetPosition, Time.deltaTime * lighterLerpSpeed),
+                    Quaternion.Slerp(lighterObject.transform.rotation, targetRotation, Time.deltaTime * lighterLerpSpeed));
+                }
+            }
+            else if (lighterObject != null)
+                SetLighterPos();
+            UpdateArms(isMoving);
+
+            if (jumpAction.action.WasPressedThisFrame() && isGrounded)
+            {
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
+
+            Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+            if (horizontalVelocity.sqrMagnitude > 0.01f)
+            {
+                Vector3 rotationAxis = Vector3.Cross(Vector3.up, horizontalVelocity.normalized);
+                transform.Rotate(rotationAxis, horizontalVelocity.magnitude * rotationMultiplier * Time.deltaTime, Space.World);
             }
         }
-        else if (lighterObject != null)
-        {
-            Vector3 idlePos = transform.position + new Vector3(0, -0.75f, 0);
-            lighterObject.transform.position = Vector3.Lerp(lighterObject.transform.position, idlePos, Time.deltaTime * lighterLerpSpeed);
-        }
-
-        UpdateArms(isMoving);
-
-        if (jumpAction.action.WasPressedThisFrame() && isGrounded)
-        {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-
-        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
-        if (horizontalVelocity.sqrMagnitude > 0.01f)
-        {
-            Vector3 rotationAxis = Vector3.Cross(Vector3.up, horizontalVelocity.normalized);
-            transform.Rotate(rotationAxis, horizontalVelocity.magnitude * rotationMultiplier * Time.deltaTime, Space.World);
-        }
+    }
+    private void SetLighterPos()
+    {
+        Vector3 idlePos = transform.position + new Vector3(0, -0.75f, 0);
+        lighterObject.transform.position = Vector3.Lerp(lighterObject.transform.position, idlePos, Time.deltaTime * lighterLerpSpeed);
+    }
+    private void SetArmsOff()
+    {
+        leftArmController.SetVisibility(false);
+        rightArmController.SetVisibility(false);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player")
+            && moveAction.action.ReadValue<Vector2>().sqrMagnitude < 0.01
+            && Math.Abs(rb.linearVelocity.y) < 0.01f)
+            SetArmsOff();
     }
 
     private void UpdateArms(bool isMoving)
@@ -246,8 +273,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 mouseScreenPos = mousePositionAction.action.ReadValue<Vector2>();
         Ray ray = mainCamera.ScreenPointToRay(mouseScreenPos);
-        Plane groundPlane = new Plane(Vector3.up, transform.position);
-        
+        Plane groundPlane = new(Vector3.up, transform.position);
+
         if (groundPlane.Raycast(ray, out float enter))
         {
             return ray.GetPoint(enter);
@@ -257,13 +284,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveArmToTarget(Transform armTransform, Vector3 targetWorldPos)
     {
-        Vector3 directionToTarget = targetWorldPos - transform.position;
-        float dist = Mathf.Min(directionToTarget.magnitude, maxArmReach);
-        Vector3 clampedTarget = transform.position + directionToTarget.normalized * dist;
-        
-        clampedTarget.y = transform.position.y + 0.5f;
+        Vector3 armOrigin = transform.position;
+        armOrigin.y += 0.5f;
 
-        armTransform.position = Vector3.Lerp(armTransform.position, clampedTarget, Time.deltaTime * armSmoothTime);
+        Vector3 adjustedTarget = targetWorldPos;
+        adjustedTarget.y = armOrigin.y;
+
+        Vector3 direction = (adjustedTarget - armOrigin).normalized;
+        float distance = Vector3.Distance(armOrigin, adjustedTarget);
+        float clampDist = Mathf.Min(distance, maxArmReach);
+
+        Vector3 finalPos = armOrigin + direction * clampDist;
+
+        if (Physics.Raycast(armOrigin, direction, out RaycastHit hit, clampDist, obstacleLayer))
+        {
+            finalPos = hit.point - (direction * 0.1f);
+        }
+
+        armTransform.position = Vector3.Lerp(armTransform.position, finalPos, Time.deltaTime * armSmoothTime);
         armTransform.LookAt(targetWorldPos);
     }
 
@@ -310,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator UnlockingMovement()
+    public IEnumerator UnlockingMovement()
     {
         yield return waitForSeconds;
         canMove = true;

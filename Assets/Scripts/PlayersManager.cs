@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayersManager : MonoBehaviour
 {
-    public PlayerMovement[] allPlayers;
+    public PlayerController[] allPlayers;
     public CameraFollow cameraScript;
 
     [Header("Input")]
@@ -61,23 +61,23 @@ public class PlayersManager : MonoBehaviour
         }
     }
     private IEnumerator PlaceFogBetween()
-{
-    while (true)
     {
-        Vector3 centerPosition = Vector3.zero;
-
-        foreach (PlayerMovement player in allPlayers)
+        while (true)
         {
-            centerPosition += player.transform.position;
-        }
+            Vector3 centerPosition = Vector3.zero;
 
-        if (allPlayers.Length > 0)
-        {
-            centerPosition /= allPlayers.Length;
-            fogPlane.transform.position = new Vector3(centerPosition.x, -40f, centerPosition.z);
-        }
+            foreach (PlayerController player in allPlayers)
+            {
+                centerPosition += player.transform.position;
+            }
 
-        yield return new WaitForSeconds(1f);
+            if (allPlayers.Length > 0)
+            {
+                centerPosition /= allPlayers.Length;
+                fogPlane.transform.position = new Vector3(centerPosition.x, -40f, centerPosition.z);
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
     }
-}
 }

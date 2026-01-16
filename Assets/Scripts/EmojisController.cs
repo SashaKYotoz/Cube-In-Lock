@@ -3,14 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class EmojiBubbleController : MonoBehaviour
+public class EmojisController : MonoBehaviour
 {
     [Header("UI References")]
     public UIDocument uiDocument;
     public Sprite bubbleBackgroundSprite;
 
-    [Header("Testing")]
-    public Sprite testEmoji;
+    [Header("Emojis")]
+    public bool isYellow;
+    public Sprite currentEmoji;
+    [SerializeField] private Sprite emoji_interesting;
+    [SerializeField] private Sprite emoji_thinking_b;
+    [SerializeField] private Sprite emoji_thinking_y;
+    [SerializeField] private Sprite emoji_smiling_b;
+    [SerializeField] private Sprite emoji_smiling_y;
+    [SerializeField] private Sprite emoji_exciting_b;
+    [SerializeField] private Sprite emoji_exciting_y;
+    [SerializeField] private Sprite emoji_super_exciting_b;
+    [SerializeField] private Sprite emoji_super_exciting_y;
+    [SerializeField] private Sprite emoji_loving_b;
+    [SerializeField] private Sprite emoji_loving_y;
+    [SerializeField] private Sprite emoji_awkwardly_b;
+    [SerializeField] private Sprite emoji_awkwardly_y;
+    [SerializeField] private Sprite emoji_lucky_b;
+    [SerializeField] private Sprite emoji_lucky_y;
+    [SerializeField] private Sprite emoji_super_sad_b;
+    [SerializeField] private Sprite emoji_super_sad_y;
+    [SerializeField] private Sprite emoji_sad_b;
+    [SerializeField] private Sprite emoji_sad_y;
 
     [Header("Animation Settings")]
     public float fadeDuration = 0.15f;
@@ -38,7 +58,7 @@ public class EmojiBubbleController : MonoBehaviour
             bubbleElement.style.backgroundImage = new StyleBackground(bubbleBackgroundSprite);
         }
 
-        if (testEmoji != null) SetEmoji(testEmoji);
+        if (currentEmoji != null) SetEmoji(currentEmoji);
     }
 
     public void SetEmoji(Sprite newEmoji)

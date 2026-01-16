@@ -70,4 +70,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EmojiBubbleController
   uiDocument: {fileID: 4956270837035378407}
   bubbleBackgroundSprite: {fileID: -9200149523946290874, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
-  testEmoji: {fileID: -2119889336660483631, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  isYellow: 0
+  currentEmoji: {fileID: 4406955550590696734, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_interesting: {fileID: 4406955550590696734, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_thinking_b: {fileID: -3012732733734341071, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_thinking_y: {fileID: -8638752359703126970, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_smiling_b: {fileID: -2119889336660483631, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_smiling_y: {fileID: -859206560905849710, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_exciting_b: {fileID: -8066194779167733461, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_exciting_y: {fileID: 2965093994946680595, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_super_exciting_b: {fileID: -329122056836879586, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_super_exciting_y: {fileID: -149674894380409667, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_loving_b: {fileID: 5200199377432359980, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_loving_y: {fileID: -611209829406353357, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_awkwardly_b: {fileID: 8509236168699507256, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_awkwardly_y: {fileID: 1804214684, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_lucky_b: {fileID: -3152085522264183294, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_lucky_y: {fileID: 2037190961, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_super_sad_b: {fileID: -734395856120163402, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_super_sad_y: {fileID: -1499946590, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_sad_b: {fileID: 6027708913765818062, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  emoji_sad_y: {fileID: -1499946590, guid: d3c0390760d20c64ba2afc837c182205, type: 3}
+  fadeDuration: 0.15
