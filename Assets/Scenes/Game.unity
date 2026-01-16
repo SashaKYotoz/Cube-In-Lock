@@ -314,6 +314,10 @@ PrefabInstance:
       value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: maxArmReach
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: splashObject
       value: 
       objectReference: {fileID: 0}
@@ -342,6 +346,10 @@ PrefabInstance:
       value: 0.9960785
       objectReference: {fileID: 0}
     - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: emojiHolderPref
+      value: 
+      objectReference: {fileID: 5233447751357056872, guid: fff3ac08ac2bce348ae1d81c57dceb44, type: 3}
+    - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: leftArmOffset.x
       value: -3.5
       objectReference: {fileID: 0}
@@ -365,10 +373,34 @@ PrefabInstance:
       propertyPath: mousePositionAction
       value: 
       objectReference: {fileID: 755626990168031401, guid: dbe5a8e8be6a75e46a69f062c8c3f74d, type: 3}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675002392459781195, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4675002392459781195, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1f801137632203249b3d4f1b4562ec66, type: 2}
+    - target: {fileID: 4675002392459781195, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 24b9cf8290d506f4eb5fa0c210924cbf, type: 2}
     - target: {fileID: 6696229771925169167, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: m_Name
       value: Player_Yellow
@@ -1466,6 +1498,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8235643829626312872, guid: 8fa94823796f1f746af7030ea30e8f87, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dbcef4ef7d0247a429ddc6b21e6dfd0f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5029,6 +5065,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1201323641}
     m_Modifications:
     - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: maxArmReach
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: splashObject
       value: 
       objectReference: {fileID: 0}
@@ -5057,6 +5097,10 @@ PrefabInstance:
       value: 0.43137258
       objectReference: {fileID: 0}
     - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: emojiHolderPref
+      value: 
+      objectReference: {fileID: 5233447751357056872, guid: fff3ac08ac2bce348ae1d81c57dceb44, type: 3}
+    - target: {fileID: 4026532648675798008, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: leftArmOffset.x
       value: -3.5
       objectReference: {fileID: 0}
@@ -5080,6 +5124,42 @@ PrefabInstance:
       propertyPath: mousePositionAction
       value: 
       objectReference: {fileID: 755626990168031401, guid: dbe5a8e8be6a75e46a69f062c8c3f74d, type: 3}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517851544623250090, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675002392459781195, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675002392459781195, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4ce2a3f8482843b40800075bf81700b6, type: 2}
     - target: {fileID: 6696229771925169167, guid: bb22eaf2be0664f458bb48a57d9eae3b, type: 3}
       propertyPath: m_Name
       value: Player_Blue

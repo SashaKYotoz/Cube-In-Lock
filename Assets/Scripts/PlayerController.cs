@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector3 initPoint;
     [SerializeField] private Color effectsColor;
     [SerializeField] private GameObject triangleArmPref;
+    [SerializeField] private GameObject emojiHolderPref;
     
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 10f;
@@ -32,13 +33,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float lighterLerpSpeed = 10f;
 
     [Header("Arm Settings")]
-    [SerializeField] private Vector3 leftArmOffset = new Vector3(-2f, 0.5f, 0f);
-    [SerializeField] private Vector3 rightArmOffset = new Vector3(2f, 0.5f, 0f);
+    [SerializeField] private Vector3 leftArmOffset = new(-2f, 0.5f, 0f);
+    [SerializeField] private Vector3 rightArmOffset = new(2f, 0.5f, 0f);
     [SerializeField] private float armSmoothTime = 10f;
     [SerializeField] private float maxArmReach = 4f;
 
     private GameObject splashObject;
     private GameObject lighterObject;
+    private GameObject emojiObject;
     private TriangularArmController leftArmController;
     private TriangularArmController rightArmController;
     
@@ -47,10 +49,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private Vector2 inputDirection;
     private Vector3 lastMoveDirection = Vector3.forward;
-    private static WaitForSeconds waitForSeconds = new(2.5f);
+    private static readonly WaitForSeconds waitForSeconds = new(2.5f);
 
     public bool canMove;
     public bool isControlled = false;
+    public bool emojiHaveToShow = false;
 
     private void Awake()
     {
@@ -81,6 +84,10 @@ public class PlayerMovement : MonoBehaviour
             
             GameObject rightArmObj = Instantiate(triangleArmPref, transform.position, Quaternion.identity, null);
             rightArmController = rightArmObj.GetComponent<TriangularArmController>();
+        }
+        if(emojiHolderPref != null){
+            emojiObject = Instantiate(emojiHolderPref, transform.position, Quaternion.identity, null);
+            emojiObject.SetActive(false);
         }
 
         StartCoroutine(UnlockingMovement());

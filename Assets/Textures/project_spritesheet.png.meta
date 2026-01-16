@@ -82,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -117,7 +117,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
@@ -158,13 +158,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: project_spritesheet_0
+      name: emoji_bg
       rect:
         serializedVersion: 2
         x: 0
-        y: 1008
-        width: 16
-        height: 16
+        y: 992
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,11 +180,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_1
+      name: emoji_interesting
       rect:
         serializedVersion: 2
         x: 32
-        y: 1008
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -202,11 +202,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_2
+      name: emoji_thinking_b
       rect:
         serializedVersion: 2
-        x: 64
-        y: 1008
+        x: 48
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -224,11 +224,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_3
+      name: emoji_smiling_b
       rect:
         serializedVersion: 2
-        x: 96
-        y: 1008
+        x: 64
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -246,11 +246,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_4
+      name: emoji_exciting_b
       rect:
         serializedVersion: 2
-        x: 128
-        y: 1008
+        x: 80
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -268,11 +268,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_5
+      name: emoji_super_exciting_b
       rect:
         serializedVersion: 2
-        x: 160
-        y: 1008
+        x: 96
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -290,11 +290,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_6
+      name: emoji_loving_b
       rect:
         serializedVersion: 2
-        x: 192
-        y: 1008
+        x: 112
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -312,11 +312,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_7
+      name: emoji_awkwardly_b
       rect:
         serializedVersion: 2
-        x: 224
-        y: 1008
+        x: 128
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -334,10 +334,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_8
+      name: emoji_thinking_y
       rect:
         serializedVersion: 2
-        x: 0
+        x: 48
         y: 976
         width: 16
         height: 16
@@ -356,11 +356,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_9
+      name: emoji_lucky_b
       rect:
         serializedVersion: 2
-        x: 32
-        y: 976
+        x: 144
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -378,11 +378,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_10
+      name: emoji_super_sad_b
       rect:
         serializedVersion: 2
-        x: 64
-        y: 976
+        x: 160
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -400,11 +400,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_11
+      name: emoji_sad_b
       rect:
         serializedVersion: 2
-        x: 96
-        y: 976
+        x: 176
+        y: 992
         width: 16
         height: 16
       alignment: 0
@@ -422,10 +422,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_12
+      name: emoji_smiling_y
       rect:
         serializedVersion: 2
-        x: 128
+        x: 64
         y: 976
         width: 16
         height: 16
@@ -444,10 +444,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_13
+      name: emoji_exciting_y
       rect:
         serializedVersion: 2
-        x: 160
+        x: 80
         y: 976
         width: 16
         height: 16
@@ -466,10 +466,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_14
+      name: emoji_super_exciting_y
       rect:
         serializedVersion: 2
-        x: 192
+        x: 96
         y: 976
         width: 16
         height: 16
@@ -488,10 +488,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: project_spritesheet_15
+      name: emoji_loving_y
       rect:
         serializedVersion: 2
-        x: 224
+        x: 112
         y: 976
         width: 16
         height: 16
@@ -505,6 +505,94 @@ TextureImporter:
       bones: []
       spriteID: 338d10306eb8487f0800000000000000
       internalID: -611209829406353357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: emoji_awkwardly_y
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 976
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5e9a51260048cf4fbb8c320a00f91cc
+      internalID: 1804214684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: emoji_lucky_y
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 976
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05291f7e0b5d77b46b7a291efa16a6f6
+      internalID: 2037190961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: emoji_super_sad_y
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 976
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ecc91868966265438580195451cea8f
+      internalID: -1043968646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: emoji_sad_y
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 976
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 020079b5b594a0146bb321e27d3ec23d
+      internalID: -1499946590
       vertices: []
       indices: 
       edges: []
@@ -523,22 +611,26 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      project_spritesheet_0: -9200149523946290874
-      project_spritesheet_1: 4406955550590696734
-      project_spritesheet_10: -734395856120163402
-      project_spritesheet_11: 6027708913765818062
-      project_spritesheet_12: -859206560905849710
-      project_spritesheet_13: 2965093994946680595
-      project_spritesheet_14: -149674894380409667
-      project_spritesheet_15: -611209829406353357
-      project_spritesheet_2: -3012732733734341071
-      project_spritesheet_3: -2119889336660483631
-      project_spritesheet_4: -8066194779167733461
-      project_spritesheet_5: -329122056836879586
-      project_spritesheet_6: 5200199377432359980
-      project_spritesheet_7: 8509236168699507256
-      project_spritesheet_8: -8638752359703126970
-      project_spritesheet_9: -3152085522264183294
+      emoji_awkwardly_b: 8509236168699507256
+      emoji_awkwardly_y: 1804214684
+      emoji_bg: -9200149523946290874
+      emoji_exciting_b: -8066194779167733461
+      emoji_exciting_y: 2965093994946680595
+      emoji_interesting: 4406955550590696734
+      emoji_loving_b: 5200199377432359980
+      emoji_loving_y: -611209829406353357
+      emoji_lucky_b: -3152085522264183294
+      emoji_lucky_y: 2037190961
+      emoji_sad_b: 6027708913765818062
+      emoji_sad_y: -1499946590
+      emoji_smiling_b: -2119889336660483631
+      emoji_smiling_y: -859206560905849710
+      emoji_super_exciting_b: -329122056836879586
+      emoji_super_exciting_y: -149674894380409667
+      emoji_super_sad_b: -734395856120163402
+      emoji_super_sad_y: -1043968646
+      emoji_thinking_b: -3012732733734341071
+      emoji_thinking_y: -8638752359703126970
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

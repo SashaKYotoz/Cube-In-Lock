@@ -1,0 +1,14 @@
+
+.speech-bubble {
+    width: 32px;
+    height: 32px;
+    
+    align-items: center; 
+    justify-content: center;
+}
+
+.emoji-face {
+    width: 16px;
+    height: 16px;
+    background-color: rgba(0, 0, 0, 0);
+}
